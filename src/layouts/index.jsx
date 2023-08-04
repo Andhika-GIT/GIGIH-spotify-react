@@ -6,7 +6,7 @@ import { Box, useColorModeValue, Drawer, DrawerContent, useDisclosure } from '@c
 // components
 import { Navigation, Sidebar } from '../components';
 
-const layouts = ({ children }) => {
+const Layout = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -26,4 +26,4 @@ const layouts = ({ children }) => {
   );
 };
 
-export default layouts;
+export default Layout;

@@ -1,10 +1,12 @@
 import React from 'react';
 ('use client');
 
-import { Avatar, Box, Flex, HStack, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Avatar, Box, Flex, HStack, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorModeValue, useColorMode, Button } from '@chakra-ui/react';
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 const Navigation = ({ onOpen, ...rest }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -23,8 +25,8 @@ const Navigation = ({ onOpen, ...rest }) => {
         Logo
       </Text>
 
-      <HStack spacing={{ base: '0', md: '6' }}>
-        <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
+      <HStack spacing={{ base: '4', md: '6' }}>
+        <Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>

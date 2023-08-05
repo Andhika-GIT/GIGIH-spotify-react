@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getUserInfo = async () => {
+const getTracks = async (search) => {
   let response;
   const authToken = localStorage.getItem('token');
   if (!authToken) {
@@ -8,15 +8,14 @@ const getUserInfo = async () => {
     return response;
   }
   try {
-    response = await axios.get('https://api.spotify.com/v1/me', {
+    response = await axios.get(`https://api.spotify.com/v1/search?q=${search}&type=track&limit=8`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
     });
 
-    window.localStorage.setItem('user', JSON.stringify(response.data));
-    return response.data;
+    return response.data.tracks.items;
   } catch (err) {
     let errorInfo = err.response.data.error;
     if (errorInfo.status === 401) {
@@ -26,4 +25,4 @@ const getUserInfo = async () => {
   }
 };
 
-export default getUserInfo;
+export default getTracks;

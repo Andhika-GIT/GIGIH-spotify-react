@@ -14,9 +14,6 @@ import { FiHome, FiSettings } from "react-icons/fi";
 import { MdOutlineThumbUpOffAlt } from "react-icons/md";
 import { RiPlayList2Fill } from "react-icons/ri";
 
-// pages
-import { Home, Recommended, TopTen } from "../pages";
-
 // react-router
 import { Link } from "react-router-dom";
 

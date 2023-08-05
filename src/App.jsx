@@ -10,6 +10,9 @@ import SignIn from "./pages/auth/SignIn";
 // react-router
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
+// switch-link
+import MainLink from "./MainLink";
+
 function App() {
   const [token, setToken] = useState(null);
 
@@ -45,7 +48,9 @@ function App() {
     <>
       {token ? (
         <Router>
-          <Layout />
+          <Layout>
+            <MainLink />
+          </Layout>
         </Router>
       ) : (
         <SignIn loginUrl={loginUrl} />

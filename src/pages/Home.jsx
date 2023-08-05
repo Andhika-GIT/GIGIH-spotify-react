@@ -1,10 +1,17 @@
-import React from "react";
-import { Input } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import { Input, InputLeftElement, InputGroup } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
 
 const Home = () => {
+  const search
   return (
     <>
-      <Input variant="flushed" placeholder="Search songs" />
+      <InputGroup>
+        <InputLeftElement>
+          <SearchIcon color="gray.300" />
+        </InputLeftElement>
+        <Input variant="flushed" placeholder="Search songs" />
+      </InputGroup>
     </>
   );
 };

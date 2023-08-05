@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useEffect } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
 
-import Layout from "./layouts";
+import Layout from './layouts';
 
 // pages
-import SignIn from "./pages/auth/SignIn";
+import SignIn from './pages/auth/SignIn';
 
 // react-router
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 
 // switch-link
-import MainLink from "./MainLink";
+import MainLink from './MainLink';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -27,24 +21,24 @@ function App() {
   const redirect_url = import.meta.env.VITE_APP_SPOTIFY_REDIRECT_URI;
 
   // configure the parameters
-  const scope = "playlist-modify-private";
-  const response_type = "token";
+  const scope = 'playlist-modify-private';
+  const response_type = 'token';
 
   const loginUrl = `${auth_endpoint}?response_type=${response_type}&client_id=${client_id}&redirect_uri=${redirect_url}&scope=${scope}`;
 
   useEffect(() => {
     const hash = window.location.hash;
-    let getToken = window.localStorage.getItem("token");
+    let getToken = window.localStorage.getItem('token');
 
     if (!getToken && hash) {
       getToken = hash
         .substring(1)
-        .split("&")
-        .find((elem) => elem.startsWith("access_token"))
-        .split("=")[1];
+        .split('&')
+        .find((elem) => elem.startsWith('access_token'))
+        .split('=')[1];
 
-      window.location.hash = "";
-      window.localStorage.setItem("token", getToken);
+      window.location.hash = '';
+      window.localStorage.setItem('token', getToken);
     }
 
     setToken(getToken);
@@ -53,11 +47,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/signIn">
-          {token ? <Redirect to="/" /> : <SignIn loginUrl={loginUrl} />}
-        </Route>
+        <Route path="/signIn">{token ? <Redirect to="/" /> : <SignIn loginUrl={loginUrl} />}</Route>
         {token ? (
-          <Layout token={token}>
+          <Layout>
             <MainLink />
           </Layout>
         ) : (

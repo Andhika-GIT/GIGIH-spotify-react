@@ -1,35 +1,31 @@
-import { useEffect, useState } from "react";
-("use client");
+import { useEffect, useState } from 'react';
+('use client');
 
-import ContentWrapper from "./ContentWrapper";
+import ContentWrapper from './ContentWrapper';
 
 // components
-import { Loading } from "../components";
+import { Loading } from '../components';
 
 // utils
-import { getUserInfo } from "../utils";
+import { getUserInfo } from '../utils';
 
 // react-router
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
-const Layout = ({ token, children }) => {
+const Layout = ({ children }) => {
   const history = useHistory();
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
-    if (!token) {
-      history.replace("/signIn");
-    }
-
     let result;
 
     const getToken = async () => {
-      result = await getUserInfo(token);
+      result = await getUserInfo();
       console.log(result);
 
       if (result.status === 401) {
-        localStorage.removeItem("token");
-        history.replace("/signIn");
+        localStorage.removeItem('token');
+        history.replace('/signIn');
       } else {
         setUser(result);
       }

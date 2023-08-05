@@ -1,22 +1,40 @@
-import React from 'react';
-('use client');
+import React from "react";
+("use client");
 
-import { Box, CloseButton, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
-import { BsHeart } from 'react-icons/bs';
-import { FiHome, FiSettings } from 'react-icons/fi';
-import { MdOutlineThumbUpOffAlt } from 'react-icons/md';
-import { RiPlayList2Fill } from 'react-icons/ri';
+import {
+  Box,
+  CloseButton,
+  Flex,
+  Icon,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { BsHeart } from "react-icons/bs";
+import { FiHome, FiSettings } from "react-icons/fi";
+import { MdOutlineThumbUpOffAlt } from "react-icons/md";
+import { RiPlayList2Fill } from "react-icons/ri";
+
+// pages
+import { Home, Recommended, TopTen } from "../pages";
+
+// react-router
+import { Link } from "react-router-dom";
 
 const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Top 10', icon: BsHeart },
-  { name: 'Recommended', icon: MdOutlineThumbUpOffAlt },
-  { name: 'My Playlist', icon: RiPlayList2Fill },
+  { name: "Home", icon: FiHome, route: "/" },
+  { name: "Top 10", icon: BsHeart, route: "/top-10" },
+  { name: "Recommended", icon: MdOutlineThumbUpOffAlt, route: "/recommended" },
+  { name: "My Playlist", icon: RiPlayList2Fill, route: "/my-playlists" },
 ];
 
 const NavItem = ({ icon, children, ...rest }) => {
   return (
-    <Box as="a" href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Box
+      as="a"
+      href="#"
+      style={{ textDecoration: "none" }}
+      _focus={{ boxShadow: "none" }}
+    >
       <Flex
         align="center"
         p="4"
@@ -25,8 +43,8 @@ const NavItem = ({ icon, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
-          color: 'white',
+          bg: "cyan.400",
+          color: "white",
         }}
         {...rest}
       >
@@ -35,7 +53,7 @@ const NavItem = ({ icon, children, ...rest }) => {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: 'white',
+              color: "white",
             }}
             as={icon}
           />
@@ -48,17 +66,28 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 const Sidebar = ({ onClose, ...rest }) => {
   return (
-    <Box transition="3s ease" bg={useColorModeValue('white', 'gray.900')} borderRight="1px" borderRightColor={useColorModeValue('gray.200', 'gray.700')} w={{ base: 'full', md: 60 }} pos="fixed" h="full" {...rest}>
+    <Box
+      transition="3s ease"
+      bg={useColorModeValue("white", "gray.900")}
+      borderRight="1px"
+      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      w={{ base: "full", md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}
+    >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="bold" color="#1DB954">
           SpotSenja
         </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
+        <Link key={link.route} to={link.route}>
+          <NavItem key={link.name} icon={link.icon}>
+            {link.name}
+          </NavItem>
+        </Link>
       ))}
     </Box>
   );

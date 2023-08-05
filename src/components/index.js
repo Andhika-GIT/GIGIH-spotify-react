@@ -1,4 +1,5 @@
-import Navigation from './Navigation';
-import Sidebar from './Sidebar';
+import Navigation from "./Navigation";
+import Sidebar from "./Sidebar";
+import Loading from "./Loading";
 
-export { Navigation, Sidebar };
+export { Navigation, Sidebar, Loading };

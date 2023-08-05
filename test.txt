@@ -1,0 +1,196 @@
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+
+import Layout from "./layouts";
+
+// pages
+import SignIn from "./pages/auth/SignIn";
+
+// react-router
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+
+// switch-link
+import MainLink from "./MainLink";
+
+function App() {
+  const [token, setToken] = useState(null);
+
+  const client_id = import.meta.env.VITE_APP_SPOTIFY_CLIENT_ID;
+  const auth_endpoint = import.meta.env.VITE_APP_SPOTIFY_TOKEN_AUTHORIZE;
+  const redirect_url = import.meta.env.VITE_APP_SPOTIFY_REDIRECT_URI;
+
+  // configure the parameters
+  const scope = "playlist-modify-private";
+  const response_type = "token";
+
+  const loginUrl = `${auth_endpoint}?response_type=${response_type}&client_id=${client_id}&redirect_uri=${redirect_url}&scope=${scope}`;
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    let getToken = window.localStorage.getItem("token");
+
+    if (!getToken && hash) {
+      getToken = hash
+        .substring(1)
+        .split("&")
+        .find((elem) => elem.startsWith("access_token"))
+        .split("=")[1];
+
+      window.location.hash = "";
+      window.localStorage.setItem("token", getToken);
+    }
+
+    setToken(getToken);
+  }, []);
+
+  return (
+    <Router>
+      <Switch>
+        <Route path="/spotSenja">
+          <Layout>
+            <MainLink token={token} />
+          </Layout>
+        </Route>
+        <Route path="/signIn">
+          {token ? <Redirect to="/" /> : <SignIn loginUrl={loginUrl} />}
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
+
+export default App;
+
+
+import { Route, Redirect, useRouteMatch } from "react-router-dom";
+
+// pages
+import { Home, MyPlaylists, Recommended, TopTen } from "../pages";
+
+const MainLink = ({ token }) => {
+  const { path } = useRouteMatch();
+  return (
+    <>
+      <Route exact path={`${path}/home`}>
+        {token ? <Home /> : <Redirect to="/signIn" />}
+      </Route>
+      <Route path={`${path}/top-10`}>
+        {token ? <TopTen /> : <Redirect to="/signIn" />}
+      </Route>
+      <Route path={`${path}/recommended`}>
+        {token ? <Recommended /> : <Redirect to="/signIn" />}
+      </Route>
+      <Route path={`${path}/my-playlists`}>
+        {token ? <MyPlaylists /> : <Redirect to="/signIn" />}
+      </Route>
+      <Route path={`${path}/*`}>
+        <Redirect to={`${path}/home`} />
+      </Route>
+    </>
+  );
+};
+
+export default MainLink;
+
+
+import React from "react";
+("use client");
+
+import {
+  Box,
+  CloseButton,
+  Flex,
+  Icon,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { BsHeart } from "react-icons/bs";
+import { FiHome, FiSettings } from "react-icons/fi";
+import { MdOutlineThumbUpOffAlt } from "react-icons/md";
+import { RiPlayList2Fill } from "react-icons/ri";
+
+// react-router
+import { Link, useRouteMatch } from "react-router-dom";
+
+const LinkItems = [
+  { name: "Home", icon: FiHome, route: "home" },
+  { name: "Top 10", icon: BsHeart, route: "top-10" },
+  { name: "Recommended", icon: MdOutlineThumbUpOffAlt, route: "recommended" },
+  { name: "My Playlist", icon: RiPlayList2Fill, route: "my-playlists" },
+];
+
+const NavItem = ({ icon, children, ...rest }) => {
+  return (
+    <Box
+      as="a"
+      href="#"
+      style={{ textDecoration: "none" }}
+      _focus={{ boxShadow: "none" }}
+    >
+      <Flex
+        align="center"
+        p="4"
+        mx="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        _hover={{
+          bg: "cyan.400",
+          color: "white",
+        }}
+        {...rest}
+      >
+        {icon && (
+          <Icon
+            mr="4"
+            fontSize="16"
+            _groupHover={{
+              color: "white",
+            }}
+            as={icon}
+          />
+        )}
+        {children}
+      </Flex>
+    </Box>
+  );
+};
+
+const Sidebar = ({ onClose, ...rest }) => {
+  const { url } = useRouteMatch();
+  return (
+    <Box
+      transition="3s ease"
+      bg={useColorModeValue("white", "gray.900")}
+      borderRight="1px"
+      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      w={{ base: "full", md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}
+    >
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Text fontSize="2xl" fontWeight="bold" color="#1DB954">
+          SpotSenja
+        </Text>
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+      </Flex>
+      {LinkItems.map((link) => (
+        <Link key={link.route} to={`${url}/${link.route}`}>
+          <NavItem key={link.name} icon={link.icon}>
+            {link.name}
+          </NavItem>
+        </Link>
+      ))}
+    </Box>
+  );
+};
+
+export default Sidebar;

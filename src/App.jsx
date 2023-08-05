@@ -8,7 +8,13 @@ import Layout from "./layouts";
 import SignIn from "./pages/auth/SignIn";
 
 // react-router
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 // switch-link
 import MainLink from "./MainLink";
@@ -45,17 +51,20 @@ function App() {
   }, []);
 
   return (
-    <>
-      {token ? (
-        <Router>
-          <Layout>
+    <Router>
+      <Switch>
+        <Route path="/signIn">
+          {token ? <Redirect to="/" /> : <SignIn loginUrl={loginUrl} />}
+        </Route>
+        {token ? (
+          <Layout token={token}>
             <MainLink />
           </Layout>
-        </Router>
-      ) : (
-        <SignIn loginUrl={loginUrl} />
-      )}
-    </>
+        ) : (
+          <SignIn loginUrl={loginUrl} />
+        )}
+      </Switch>
+    </Router>
   );
 }
 

@@ -1,29 +1,52 @@
-import React from 'react';
-('use client');
+import React, { useEffect, useState } from "react";
+("use client");
 
-import { Box, useColorModeValue, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  useColorModeValue,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+import ContentWrapper from "./ContentWrapper";
 
 // components
-import { Navigation, Sidebar } from '../components';
+import { Navigation, Sidebar, Loading } from "../components";
 
-const Layout = ({ children }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+// utils
+import { getUserInfo } from "../utils";
 
-  return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <Sidebar onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose} returnFocusOnClose={false} onOverlayClick={onClose} size="full">
-        <DrawerContent>
-          <Sidebar onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <Navigation onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
-    </Box>
-  );
+// react-router
+import { useHistory } from "react-router-dom";
+
+const Layout = ({ token, children }) => {
+  const history = useHistory();
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    if (!token) {
+      history.replace("/signIn");
+    }
+
+    let result;
+
+    const getToken = async () => {
+      result = await getUserInfo(token);
+      console.log(result);
+
+      if (result.status === 401) {
+        history.replace("/signIn");
+      } else {
+        setUser(result);
+      }
+    };
+
+    getToken();
+  }, []);
+
+  if (!user) return <Loading />;
+  return <ContentWrapper content={children} user={user} />;
 };
 
 export default Layout;

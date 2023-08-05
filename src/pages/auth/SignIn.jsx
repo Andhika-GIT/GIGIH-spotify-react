@@ -1,18 +1,9 @@
 import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  HStack,
-  InputRightElement,
-  Stack,
   Button,
+  Flex,
   Heading,
-  Text,
+  Stack,
   useColorModeValue,
-  Link,
 } from "@chakra-ui/react";
 
 const SignIn = ({ loginUrl }) => {

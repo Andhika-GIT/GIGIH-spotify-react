@@ -12,6 +12,9 @@ const getUserInfo = async (authToken) => {
     return response.data;
   } catch (err) {
     let errorInfo = err.response.data.error;
+    if (errorInfo.status === 401) {
+      localStorage.removeItem("token");
+    }
     return errorInfo;
   }
 };

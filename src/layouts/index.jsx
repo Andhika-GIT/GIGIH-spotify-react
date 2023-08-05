@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 ("use client");
-
-import {
-  Box,
-  useColorModeValue,
-  Drawer,
-  DrawerContent,
-  useDisclosure,
-} from "@chakra-ui/react";
 
 import ContentWrapper from "./ContentWrapper";
 
 // components
-import { Navigation, Sidebar, Loading } from "../components";
+import { Loading } from "../components";
 
 // utils
 import { getUserInfo } from "../utils";
@@ -36,6 +28,7 @@ const Layout = ({ token, children }) => {
       console.log(result);
 
       if (result.status === 401) {
+        localStorage.removeItem("token");
         history.replace("/signIn");
       } else {
         setUser(result);

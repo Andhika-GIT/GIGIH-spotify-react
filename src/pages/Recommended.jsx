@@ -1,45 +1,34 @@
-import React, { useEffect, useState } from "react";
-import {
-  Input,
-  InputLeftElement,
-  InputGroup,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { Wrap, WrapItem } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 
-import { useDebouncedState } from "@mantine/hooks";
+import { useDebouncedState } from '@mantine/hooks';
 
 // utils
-import { getRecommendation } from "../utils";
+import { getRecommendation } from '../utils';
 
 // components
-import { Card, Loading } from "../components";
-
-// react-router
-import { useHistory } from "react-router-dom";
+import { Card } from '../components';
 
 const Recommended = () => {
   const [recommended, setRecommended] = useState([]);
-  const [search, setSearch] = useDebouncedState("taylor swift", 500);
 
   useEffect(() => {
     let result;
 
     const searchRecommendation = async () => {
-      result = await getRecommendation(search);
+      result = await getRecommendation('taylor');
       console.log(result);
 
       if (result.status === 401) {
-        localStorage.removeItem("token");
-        history.replace("/signIn");
+        localStorage.removeItem('token');
+        history.replace('/signIn');
       } else {
         setRecommended(result);
       }
     };
 
     searchRecommendation();
-  }, [search]);
+  }, []);
 
   return (
     <>

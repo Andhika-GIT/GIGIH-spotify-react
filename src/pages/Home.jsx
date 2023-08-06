@@ -1,63 +1,45 @@
-import React, { useEffect, useState } from "react";
-import {
-  Input,
-  InputLeftElement,
-  InputGroup,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
-
-import { useDebouncedState } from "@mantine/hooks";
+import { Wrap, WrapItem, Heading, Text, Center } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 
 // utils
-import { getTracks } from "../utils";
+import { getRecommendation } from '../utils';
 
 // components
-import { Card, Loading } from "../components";
-
-// react-router
-import { useHistory } from "react-router-dom";
+import { Card } from '../components';
 
 const Home = () => {
-  const [tracks, setTracks] = useState([]);
-  const [search, setSearch] = useDebouncedState("taylor swift", 500);
-
-  const history = useHistory();
+  const [recommended, setRecommended] = useState([]);
 
   useEffect(() => {
     let result;
 
-    const searchTracks = async () => {
-      result = await getTracks(search ? search : "taylor swift");
+    const searchRecommendation = async () => {
+      result = await getRecommendation('taylor');
       console.log(result);
 
       if (result.status === 401) {
-        localStorage.removeItem("token");
-        history.replace("/signIn");
+        localStorage.removeItem('token');
+        history.replace('/signIn');
       } else {
-        setTracks(result);
+        setRecommended(result);
       }
     };
 
-    searchTracks();
-  }, [search]);
-
-  if (!tracks) return <Loading />;
+    searchRecommendation();
+  }, []);
   return (
     <>
-      <InputGroup>
-        <InputLeftElement>
-          <SearchIcon color="gray.300" />
-        </InputLeftElement>
-        <Input
-          variant="flushed"
-          placeholder="Search songs"
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </InputGroup>
+      <Center mb="30px">
+        <Heading fontWeight={600} fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }} lineHeight={'110%'}>
+          Recommended For{' '}
+          <Text as={'span'} color={'green.400'}>
+            You
+          </Text>
+        </Heading>
+      </Center>
+
       <Wrap spacing="20px">
-        {tracks.map((track, index) => {
+        {recommended.map((track, index) => {
           return (
             <WrapItem key={track.href}>
               <Card data={track} type="tracks" />

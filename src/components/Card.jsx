@@ -8,6 +8,9 @@ import {
   Text,
   Stack,
   Image,
+  Spacer,
+  VStack,
+  Flex,
 } from "@chakra-ui/react";
 
 const IMAGE =
@@ -38,8 +41,7 @@ const Card = ({ data, type }) => {
         p={6}
         maxW={"300px"}
         w={"full"}
-        h={"full"}
-        maxH={"350px"}
+        minH={"450px"}
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"2xl"}
         rounded={"lg"}
@@ -78,19 +80,24 @@ const Card = ({ data, type }) => {
             alt="#"
           />
         </Box>
-        <Stack pt={10} align={"center"}>
+        <Flex
+          direction={"column"}
+          alignItems="center"
+          gap={2}
+          pt={20}
+          height="100%"
+        >
           <Text color={"gray.500"} fontSize={"sm"} textTransform={"uppercase"}>
             {songData.artistsName}
           </Text>
           <Heading fontSize={"lg"} fontFamily={"body"} fontWeight={500}>
             {songData.name}
           </Heading>
-          <Stack direction={"row"} align={"center"}>
-            <Text color={"gray.500"} fontSize={"md"}>
-              {songData.releaseDate}
-            </Text>
-          </Stack>
-        </Stack>
+          <Spacer />
+          <Text color={"gray.500"} fontSize={"md"}>
+            {songData.releaseDate}
+          </Text>
+        </Flex>
       </Box>
     </Center>
   );

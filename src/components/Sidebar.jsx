@@ -19,9 +19,9 @@ import { Link } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/" },
-  { name: "Top 10", icon: BsHeart, route: "/top-10" },
-  { name: "Recommended", icon: MdOutlineThumbUpOffAlt, route: "/recommended" },
+  // { name: "Top 10", icon: BsHeart, route: "/top-10" },
   { name: "My Playlist", icon: RiPlayList2Fill, route: "/my-playlists" },
+  { name: "Recommended", icon: MdOutlineThumbUpOffAlt, route: "/recommended" },
 ];
 
 const NavItem = ({ icon, children, ...rest }) => {

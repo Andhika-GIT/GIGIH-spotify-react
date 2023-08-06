@@ -29,7 +29,7 @@ const Home = () => {
     let result;
 
     const searchTracks = async () => {
-      result = await getTracks(search);
+      result = await getTracks(search ? search : "taylor swift");
       console.log(result);
 
       if (result.status === 401) {

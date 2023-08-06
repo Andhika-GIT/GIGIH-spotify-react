@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getUserInfo = async () => {
+const getMyPlaylists = async () => {
   let response = {
     status: "",
   };
@@ -10,15 +10,14 @@ const getUserInfo = async () => {
     return response;
   }
   try {
-    response = await axios.get("https://api.spotify.com/v1/me", {
+    response = await axios.get("https://api.spotify.com/v1/me/playlists", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
       },
     });
 
-    window.localStorage.setItem("user", JSON.stringify(response.data));
-    return response.data;
+    return response.data.items;
   } catch (err) {
     response = err.response.data.error;
     if (response.status === 401) {
@@ -28,4 +27,4 @@ const getUserInfo = async () => {
   }
 };
 
-export default getUserInfo;
+export default getMyPlaylists;

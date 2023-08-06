@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { getRecommendation } from '../utils';
 
 // components
-import { Card } from '../components';
+import { Card, Loading } from '../components';
 
 const Home = () => {
   const [recommended, setRecommended] = useState([]);
@@ -27,6 +27,7 @@ const Home = () => {
 
     searchRecommendation();
   }, []);
+  if (!recommended) return <Loading />;
   return (
     <>
       <Center mb="30px">

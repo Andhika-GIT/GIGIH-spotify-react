@@ -5,5 +5,6 @@ import TopTen from './TopTen';
 import MyPlaylists from './MyPlaylists';
 import Playlists from './Playlists';
 import Search from './Search';
+import PlaylistDetail from './PlaylistDetail';
 
-export { SignIn, Home, Recommended, TopTen, MyPlaylists, Playlists, Search };
+export { SignIn, Home, Recommended, TopTen, MyPlaylists, Playlists, Search, PlaylistDetail };
